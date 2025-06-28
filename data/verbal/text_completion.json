@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "type": "single",
+    "question": "Although the professor was usually ______, today he was surprisingly ______.",
+    "options": ["loquacious", "reticent", "placid", "taciturn", "apathetic"],
+    "correctAnswer": ["reticent"],
+    "solution": "The clue is 'surprisingly', meaning a contrast. So if he's usually talkative, now he's quiet. Correct answer is 'reticent'."
+  },
+  {
+    "id": 2,
+    "type": "multiple",
+    "question": "Select two choices that fit the sentence: The mayor’s speech was so ______ that even the opposition applauded.",
+    "options": ["inspiring", "divisive", "compelling", "tedious", "eloquent"],
+    "correctAnswer": ["inspiring", "eloquent"],
+    "solution": "The audience's positive reaction suggests strong positive words. 'Inspiring' and 'eloquent' fit best."
+  }
+]

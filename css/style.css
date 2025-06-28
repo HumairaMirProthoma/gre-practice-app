@@ -1,0 +1,339 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #121212; /* dark background for whole app */
+  color: #CCCCCC; /* light grey text */
+}
+
+/* Header and Navbar */
+header {
+  background-color: #001F3F; /* dark navy */
+}
+
+.nav-links a {
+  color: #CCCCCC;
+  text-decoration: none;
+  margin-right: 1rem;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #FF6F61; /* coral on hover */
+}
+
+/* Right side hamburger and dropdown */
+.menu {
+  position: relative;
+}
+
+.hamburger {
+  font-size: 2rem;
+  cursor: pointer;
+  color: #CCCCCC;
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 2.5rem;
+  background-color: #001F3F;
+  border: 1px solid #444;
+  border-radius: 5px;
+  min-width: 150px;
+  z-index: 10;
+}
+
+.dropdown a {
+  display: block;
+  color: #CCCCCC;
+  padding: 10px;
+  text-decoration: none;
+}
+
+.dropdown a:hover {
+  background-color: #FF6F61;
+  color: #FFFFFF;
+}
+
+/* Grid layout for Quant Topics */
+.topic-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.topic-box {
+  background-color: rgba(0, 31, 63, 0.8);
+  color: #CCCCCC;
+  padding: 1.5rem;
+  text-align: center;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: transform 0.2s, background-color 0.3s;
+}
+
+.topic-box:hover {
+  transform: scale(1.05);
+  background-color: #FF6F61;
+  color: #FFFFFF;
+}
+
+/* Grid layout for Random Tests */
+.test-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.test-box {
+  background-color: rgba(0, 31, 63, 0.8);
+  color: #CCCCCC;
+  padding: 1.5rem;
+  text-align: center;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: transform 0.2s, background-color 0.3s;
+}
+
+.test-box:hover {
+  transform: scale(1.05);
+  background-color: #FF6F61;
+  color: #FFFFFF;
+}
+
+/* Hero Section */
+.hero-section {
+  position: relative;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+.hero-section::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: url('../images/study.jpg') center center / cover no-repeat;
+  filter: blur(5px);
+  transform: scale(1.1);
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  color: #FFFFFF;
+  padding: 2rem;
+}
+
+.hero-content h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.cta-button {
+  display: inline-block;
+  background-color: #FF6F61;
+  color: #FFFFFF;
+  padding: 0.8rem 1.5rem;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.cta-button:hover {
+  background-color: #e6594e;
+}
+
+/* Main Buttons Section */
+.main-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 2rem;
+  background-color: #1e1e1e;
+}
+
+.nav-box {
+  background-color: rgba(0, 31, 63, 0.8);
+  color: #CCCCCC;
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: transform 0.2s, background-color 0.3s;
+}
+
+.nav-box:hover {
+  transform: scale(1.05);
+  background-color: #FF6F61;
+  color: #FFFFFF;
+}
+
+/* About Section */
+.about-section {
+  padding: 2rem;
+  background-color: #121212;
+  color: #CCCCCC;
+  text-align: center;
+}
+
+.about-section h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.about-section p {
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Navbar Flex */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #001F3F; /* same as header */
+}
+
+.navbar-title {
+  color: #CCCCCC;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  color: #fff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+}
+.solution-box {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 1rem;
+  border-radius: 5px;
+  margin-top: 1rem;
+}
+.solution-btn {
+  margin-top: 0.8rem;
+  background: #FF6F61;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.solution-btn:hover {
+  background-color: #e6594e;
+}
+
+.comparison-box {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.quantity-a,
+.quantity-b {
+  flex: 1;
+  min-width: 200px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 1rem;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Submit Button Styling */
+.submit-btn {
+  background: #6c63ff;
+  color: white;
+  padding: 0.5rem 1rem;
+  margin-top: 0.5rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+.submit-btn:hover {
+  background-color: #554fc0;
+}
+
+/* Comparison Grid */
+.comparison-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Reset Button Styling */
+.reset-btn {
+  background-color: #ffcc00;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.reset-btn:hover {
+  background-color: #e6b800;
+}
+/* New styling improvements */
+.submit-btn {
+  background: #FF6F61;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  margin-top: 0.5rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.submit-btn:hover {
+  background: #e6594e;
+}
+.reset-btn {
+  background-color: orange;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  font-weight: bold;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+.reset-btn:hover {
+  background-color: darkorange;
+}
+
+.comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: rgba(255,255,255,0.05);
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}

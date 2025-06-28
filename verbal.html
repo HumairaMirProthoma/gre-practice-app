@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GRE Practice App - Verbal Practice</title>
+  <h2>Verbal Practice Page</h2>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header>
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem;">
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="quant.html">Quantitative</a>
+      <a href="verbal.html">Verbal</a>
+      <a href="vocab.html">Vocabulary</a>
+      <a href="mocktest.html">Mock Test</a>
+    </div>
+    <div class="menu">
+      <div class="hamburger" id="hamburger">☰</div>
+      <div class="dropdown" id="dropdownMenu">
+        <a href="profile.html">Profile</a>
+        <a href="about.html">About</a>
+        <a href="#">Logout</a>
+      </div>
+    </div>
+  </div>
+  </header>
+
+<main style="padding: 2rem;">
+  <h2 style="text-align: center;">Verbal Topics</h2>
+  <div class="topic-grid">
+    <a href="verbal_topic_detail.html?topic=rc" class="topic-box">Reading Comprehension</a>
+    <a href="verbal_topic_detail.html?topic=tc" class="topic-box">Text Completion</a>
+    <a href="verbal_topic_detail.html?topic=se" class="topic-box">Sentence Equivalence</a>
+  </div>
+
+  <h2 style="text-align: center; margin-top: 3rem;">Random Tests</h2>
+  <div class="test-grid">
+    <a href="verbal_test_detail.html?test=1" class="test-box">Verbal Test 1 (Easy)</a>
+    <a href="verbal_test_detail.html?test=2" class="test-box">Verbal Test 2 (Medium)</a>
+    <a href="verbal_test_detail.html?test=3" class="test-box">Verbal Test 3 (Hard)</a>
+  </div>
+</main>
+
+
+  <footer>
+    <p>© 2025 GRE Practice App by YourName</p>
+  </footer>
+  <script src="js/main.js"></script>
+</body>
+</html>
