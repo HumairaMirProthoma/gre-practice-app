@@ -14,6 +14,7 @@
       <a href="index.html">Home</a>
       <a href="quant.html">Quant</a>
       <a href="verbal.html">Verbal</a>
+      <a href="tests.html">Tests</a>
     </div>
   </div>
 </header>
@@ -27,23 +28,39 @@
 <footer>
   <p style="text-align:center; padding:1rem;">© 2025 GRE Practice App by YourName</p>
 </footer>
+
 <script>
+/* -------------------------
+  Loads topic JSON from data/quant/<slug>.json
+  Expects topic slug in URL: quant_topic_detail.html?topic=prime_numbers
+------------------------- */
 const urlParams = new URLSearchParams(window.location.search);
-const topic = urlParams.get('topic');
+let topic = urlParams.get('topic');
+
+// If no topic provided, fallback to prime_numbers
+if (!topic) topic = 'prime_numbers';
+
 document.getElementById('topicTitle').textContent = topic.replace(/_/g, ' ').toUpperCase();
 
 const STORAGE_KEY = `gre_${topic}_answers`;
 const savedAnswers = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
 
-fetch(`data/${topic}.json`)
-  .then(res => res.json())
+// Fetch from data/quant/<topic>.json
+fetch(`data/quant/${topic}.json`)
+  .then(res => {
+    if (!res.ok) throw new Error('File not found');
+    return res.json();
+  })
   .then(data => renderQuestions(data))
-  .catch(() => {
+  .catch(err => {
+    console.error('Error loading topic JSON:', err);
     document.getElementById('questionsContainer').innerHTML = '<p style="color:red">Questions could not be loaded.</p>';
   });
 
 function renderQuestions(questions) {
   const container = document.getElementById('questionsContainer');
+  container.innerHTML = '';
+
   questions.forEach((q, index) => {
     const card = document.createElement('div');
     card.className = 'glass-card';
@@ -51,9 +68,16 @@ function renderQuestions(questions) {
 
     let content = `<p><strong>Q${index + 1}:</strong></p>`;
 
-    // Render comparison quantities in column layout
+    // comparison (two columns) using q.question with "left|||right" or q.quantityA/q.quantityB
     if (q.type === 'comparison' && q.layout === 'columns') {
-      const [left, right] = q.question.split('|||');
+      // support either storing the quantities as a single string "left|||right" or separate fields
+      let left = '', right = '';
+      if (q.question && q.question.includes('|||')) {
+        [left, right] = q.question.split('|||');
+      } else {
+        left = q.quantityA || '';
+        right = q.quantityB || '';
+      }
       content += `<div class="comparison-grid">
                     <div><strong>Quantity A</strong><br>${left.trim()}</div>
                     <div><strong>Quantity B</strong><br>${right.trim()}</div>
@@ -62,7 +86,7 @@ function renderQuestions(questions) {
       content += `<p>${q.question}</p>`;
     }
 
-    // Render options
+    // Options (single vs multiple)
     const name = `q_${q.id}`;
     if (q.type === 'multiple' || (q.type === 'comparison' && q.multiple)) {
       content += q.options.map(opt => `<label><input type="checkbox" name="${name}" value="${opt}"> ${opt}</label><br>`).join('');
@@ -70,7 +94,7 @@ function renderQuestions(questions) {
       content += q.options.map(opt => `<label><input type="radio" name="${name}" value="${opt}"> ${opt}</label><br>`).join('');
     }
 
-    // Submit and feedback section
+    // Submit, feedback, solution
     content += `
       <button class="submit-btn" onclick="submitAnswer(${q.id}, ${JSON.stringify(q).replace(/"/g, '&quot;')})">Submit</button>
       <p class="feedback" id="fb-${q.id}" style="margin-top: 0.5rem;"></p>
@@ -81,6 +105,7 @@ function renderQuestions(questions) {
     card.innerHTML = content;
     container.appendChild(card);
 
+    // restore saved answers for this question (if any)
     if (savedAnswers[q.id]) {
       const sel = savedAnswers[q.id];
       const inputs = card.querySelectorAll(`input[name='${name}']`);
@@ -106,7 +131,9 @@ function submitAnswer(id, q) {
   if (q.type === 'multiple' || (q.type === 'comparison' && q.multiple)) {
     correct = JSON.stringify(selected.sort()) === JSON.stringify(q.correctAnswer.sort());
   } else {
-    correct = selected[0] === q.correctAnswer[0];
+    // support correctAnswer being an array or a single value
+    const correctVal = Array.isArray(q.correctAnswer) ? q.correctAnswer[0] : q.correctAnswer;
+    correct = selected[0] === correctVal;
   }
 
   fb.textContent = correct ? '✅ Correct Answer' : '❌ Wrong Answer';

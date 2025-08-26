@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GRE Practice App - Tests</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header>
+    <div class="navbar">
+      <div class="navbar-title">🎓 GRE Practice App</div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="quant.html">Quant</a>
+        <a href="verbal.html">Verbal</a>
+        <a href="vocab.html">Vocabulary</a>
+        <a href="tests.html">Tests</a>
+      </div>
+    </div>
+  </header>
+
+  <main style="padding: 2rem;">
+    <h2 style="text-align:center; margin-bottom: 1.5rem;">Tests</h2>
+
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap:1rem;">
+      <a href="quant_test_detail.html?test=1" class="topic-box" style="display:flex; align-items:center; justify-content:center; height:120px; font-size:1.1rem;">
+        Quant Tests → Open
+      </a>
+
+      <a href="verbal_test_detail.html?test=1" class="topic-box" style="display:flex; align-items:center; justify-content:center; height:120px; font-size:1.1rem;">
+        Verbal Tests → Open
+      </a>
+    </div>
+
+    <p style="margin-top:1.5rem; color:#ccc; text-align:center;">Click a box then pick the test number from URL (e.g. ?test=1) or edit the link to open specific test (e.g. quant_test_detail.html?test=3).</p>
+  </main>
+
+  <footer>
+    <p style="text-align:center; padding:1rem;">© 2025 GRE Practice App by YourName</p>
+  </footer>
+  <script src="js/main.js"></script>
+</body>
+</html>

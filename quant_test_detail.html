@@ -9,18 +9,132 @@
 <body>
 
 <header>
-  <!-- Your navbar (copy same navbar here like in index.html) -->
+  <div class="navbar">
+    <div class="navbar-title">🎓 GRE Practice App</div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="quant.html">Quant</a>
+      <a href="verbal.html">Verbal</a>
+      <a href="tests.html">Tests</a>
+    </div>
+  </div>
 </header>
 
 <main style="padding: 2rem;">
-  <h2>Test Details Page</h2>
-  <p>This is where test questions will go.</p>
+  <h2 id="testTitle" style="font-size: 1.7rem; margin-bottom: 2rem; text-align: center;">Loading Test...</h2>
+  <div id="questionsContainer"></div>
+  <div style="text-align:center; margin-top: 2rem;">
+    <button onclick="resetQuestions()" class="reset-btn">Reset All Questions</button>
+  </div>
 </main>
 
 <footer>
-  <p>© 2025 GRE Practice App by YourName</p>
+  <p style="text-align:center; padding:1rem;">© 2025 GRE Practice App by YourName</p>
 </footer>
 
-<script src="js/main.js"></script>
+<script>
+const urlParams = new URLSearchParams(window.location.search);
+const testNum = urlParams.get('test') || '1'; // fallback to 1
+
+document.getElementById('testTitle').textContent = `Quant Test ${testNum}`;
+
+const STORAGE_KEY = `gre_quant_test_${testNum}_answers`;
+const savedAnswers = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+
+// fetch file from data/random_test_quant/test{testNum}.json
+fetch(`data/random_test_quant/test${testNum}.json`)
+  .then(res => {
+    if (!res.ok) throw new Error('File not found');
+    return res.json();
+  })
+  .then(data => renderQuestions(data))
+  .catch(err => {
+    console.error('Error loading test JSON:', err);
+    document.getElementById('questionsContainer').innerHTML = '<p style="color:red">Questions could not be loaded.</p>';
+  });
+
+function renderQuestions(questions) {
+  const container = document.getElementById('questionsContainer');
+  container.innerHTML = '';
+  questions.forEach((q, index) => {
+    const card = document.createElement('div');
+    card.className = 'glass-card';
+    card.id = `q-${q.id}`;
+
+    let content = `<p><strong>Q${index + 1}:</strong></p>`;
+
+    if (q.type === 'comparison' && q.layout === 'columns') {
+      let left='', right='';
+      if (q.question && q.question.includes('|||')) [left, right] = q.question.split('|||');
+      else { left = q.quantityA || ''; right = q.quantityB || ''; }
+      content += `<div class="comparison-grid">
+                    <div><strong>Quantity A</strong><br>${left.trim()}</div>
+                    <div><strong>Quantity B</strong><br>${right.trim()}</div>
+                  </div>`;
+    } else {
+      content += `<p>${q.question}</p>`;
+    }
+
+    const name = `q_${q.id}`;
+    if (q.type === 'multiple' || (q.type === 'comparison' && q.multiple)) {
+      content += q.options.map(opt => `<label><input type="checkbox" name="${name}" value="${opt}"> ${opt}</label><br>`).join('');
+    } else {
+      content += q.options.map(opt => `<label><input type="radio" name="${name}" value="${opt}"> ${opt}</label><br>`).join('');
+    }
+
+    content += `
+      <button class="submit-btn" onclick="submitAnswer(${q.id}, ${JSON.stringify(q).replace(/"/g, '&quot;')})">Submit</button>
+      <p class="feedback" id="fb-${q.id}" style="margin-top: 0.5rem;"></p>
+      <button class="solution-btn" id="solbtn-${q.id}" style="display:none;" onclick="toggleSolution(${q.id})">See Solution</button>
+      <div class="solution-box" id="solution-${q.id}" style="display:none;">${q.solution}</div>
+    `;
+
+    card.innerHTML = content;
+    container.appendChild(card);
+
+    if (savedAnswers[q.id]) {
+      const sel = savedAnswers[q.id];
+      const inputs = card.querySelectorAll(`input[name='${name}']`);
+      inputs.forEach(input => { if (sel.selected.includes(input.value)) input.checked = true; });
+      const fb = document.getElementById(`fb-${q.id}`);
+      fb.textContent = sel.feedback;
+      fb.style.color = sel.feedback.includes('Correct') ? 'lightgreen' : 'orange';
+      document.getElementById(`solbtn-${q.id}`).style.display = 'inline-block';
+    }
+  });
+}
+
+function submitAnswer(id, q) {
+  const name = `q_${id}`;
+  const selected = [...document.querySelectorAll(`input[name='${name}']:checked`)].map(i => i.value);
+  const fb = document.getElementById(`fb-${id}`);
+  if (selected.length === 0) return;
+
+  let correct = false;
+  if (q.type === 'multiple' || (q.type === 'comparison' && q.multiple)) {
+    correct = JSON.stringify(selected.sort()) === JSON.stringify(q.correctAnswer.sort());
+  } else {
+    const correctVal = Array.isArray(q.correctAnswer) ? q.correctAnswer[0] : q.correctAnswer;
+    correct = selected[0] === correctVal;
+  }
+
+  fb.textContent = correct ? '✅ Correct Answer' : '❌ Wrong Answer';
+  fb.style.color = correct ? 'lightgreen' : 'orange';
+  document.getElementById(`solbtn-${id}`).style.display = 'inline-block';
+
+  savedAnswers[id] = { selected, feedback: fb.textContent };
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(savedAnswers));
+}
+
+function toggleSolution(id) {
+  const sol = document.getElementById(`solution-${id}`);
+  sol.style.display = sol.style.display === 'none' ? 'block' : 'none';
+}
+
+function resetQuestions() {
+  localStorage.removeItem(STORAGE_KEY);
+  location.reload();
+}
+</script>
 </body>
 </html>
